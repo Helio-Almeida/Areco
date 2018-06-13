@@ -1,0 +1,53 @@
+unit uFB;
+
+interface
+
+uses
+  Dialogs, SqlExpr, Classes, DB, SysUtils, uBancoDados;
+
+type
+  TFB = class(TBancoDados)
+  private
+    class Function ObterConexao:TSQLConnection; override;
+  end;
+
+implementation
+
+{ TMSSQL }
+
+
+class function TFB.ObterConexao: TSQLConnection;
+var
+  Parametros : TStringList;
+  dbSQLConection: TSQLConnection;
+begin
+  try
+    dbSQLConection := TSQLConnection.Create(nil);
+    dbSQLConection.DriverName := 'Interbase';
+    dbSQLConection.ConnectionName := 'conexao';
+    dbSQLConection.GetDriverFunc := 'getSQLDriverINTERBASE';
+    dbSQLConection.LibraryName := 'dbexpint.dll';
+    dbSQLConection.VendorLib := 'GDS32.DLL';
+    dbSQLConection.Params.Add('DriverName=Interbase');
+    dbSQLConection.Params.Add('BlobSize=-1');
+    dbSQLConection.Params.Add('CommitRetain=False');
+    dbSQLConection.Params.Add('Database= ' { LOCAL ONDE O BANCO DE DADOS ESTA});
+    dbSQLConection.Params.Add('ErrorResourceFile=');
+    dbSQLConection.Params.Add('LocaleCode=1046');
+    dbSQLConection.Params.Add('Password= ' { SENHA DO BANCO });
+    dbSQLConection.Params.Add('RoleName=');
+    dbSQLConection.Params.Add('ServerCharSet=win1252');
+    dbSQLConection.Params.Add('SQLDialect=1');
+    dbSQLConection.Params.Add('Interbase TransIsolation=ReadCommited');
+    dbSQLConection.Params.Add('User_Name= ' { USUARIO DO BANCO});
+    dbSQLConection.Params.Add('WaitOnLocks=True');
+    dbSQLConection.LoginPrompt := False;
+
+    Result := dbSQLConection;
+  finally
+    FreeAndNil(dbSQLConection);
+  end;
+end;
+
+end.
+

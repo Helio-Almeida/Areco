@@ -1,0 +1,105 @@
+unit uVendedor;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls, Vendedor;
+
+type
+  TfrmVendedor = class(TForm)
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Label5: TLabel;
+    edtMatricula: TEdit;
+    edtNome: TEdit;
+    edtSalarioBruto: TEdit;
+    edtPercentualComissao: TEdit;
+    btnCadastro: TButton;
+    btnFechar: TButton;
+    procedure FormCreate(Sender: TObject);
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure edtMatriculaChange(Sender: TObject);
+    procedure btnCadastroClick(Sender: TObject);
+    procedure btnFecharClick(Sender: TObject);
+  private
+    { Private declarations }
+      oVendedor : TVendedor;
+  public
+    { Public declarations }
+  end;
+
+var
+  frmVendedor: TfrmVendedor;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmVendedor.FormCreate(Sender: TObject);
+begin
+  oVendedor := TVendedor.Create;
+end;
+
+procedure TfrmVendedor.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  FreeAndNil(oVendedor);
+  Action := caFree;
+end;
+
+procedure TfrmVendedor.edtMatriculaChange(Sender: TObject);
+begin
+  if Length(Trim(edtMatricula.Text)) <> 4 then
+  begin
+    edtNome.text := '';
+    edtSalarioBruto.text := '';
+    edtPercentualComissao.text := '';
+    oVendedor.Clear;
+  end
+  else
+  begin
+    if oVendedor.Busca(Trim(edtMatricula.text)) then
+    begin
+      edtNome.text := oVendedor.Nome;
+      edtSalarioBruto.Text := FloatToStr(oVendedor.SalarioBruto);
+      edtPercentualComissao.text := FloatToStr(oVendedor.PercentualComissao);
+    end;
+  end;
+end;
+
+procedure TfrmVendedor.btnCadastroClick(Sender: TObject);
+begin
+  if (Trim(edtMatricula.text) <> '') and
+     (Trim(edtNome.text) <> '') and
+     (Trim(edtSalarioBruto.text) <> '') and
+     (Trim(edtPercentualComissao.text) <> '') then
+  begin
+    oVendedor.Matricula := edtMatricula.text;
+    oVendedor.Nome      := edtNome.text;
+    oVendedor.SalarioBruto := strToFloat(edtSalarioBruto.text);
+    oVendedor.PercentualComissao := StrToFloat(edtPercentualComissao.text);
+
+    if oVendedor.Grava then
+    begin
+      edtMatricula.text := '';
+      edtnome.text := '';
+      edtSalarioBruto.Text := '';
+      edtPercentualComissao.Text := '';
+      oVendedor.Clear;
+    end
+    else
+      edtNome.Setfocus;
+  end
+  else
+    Showmessage('Campos Inválidos');
+end;
+
+procedure TfrmVendedor.btnFecharClick(Sender: TObject);
+begin
+  Close;
+end;
+
+end.

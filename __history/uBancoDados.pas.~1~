@@ -1,0 +1,151 @@
+unit uBancoDados;
+
+interface
+
+uses
+  Dialogs, SqlExpr, Classes, DB, SysUtils, Forms, Windows;
+
+
+type
+  TBancoDados = class
+    public
+        //Função declarada na classe base apenas com implementação nas classes filhas
+        class Function ObterConexao:TSQLConnection; virtual; abstract;
+
+        //Funções iguais em todas as classes filhas
+        class function ExecQuery(SQL : String; Parametros: TParams) : Boolean;
+        class function CountQuery(SQL : String) : Integer;
+        class function StringQuery(SQL : String) : String;
+
+        class function GetProximoCodigo(NomeProcedure, CampoChave: String): Integer;
+
+        class procedure IniciaTransacao;
+        class procedure FinalizaTransacao;
+        class procedure CancelaTransacao;
+
+        constructor Create(AOwner: TComponent);
+    end;
+
+var
+      FConexao: TSQLConnection;
+
+implementation
+
+{ TBancoDados }
+
+class function TBancoDados.GetProximoCodigo(NomeProcedure, CampoChave : String) : Integer;
+var
+    sp : TSQLStoredProc;
+begin
+    sp := TSQLStoredProc.Create(nil);
+
+    try
+        sp.SQLConnection := FConexao;
+        sp.StoredProcName := NomeProcedure;
+        sp.ExecProc;
+        Result := sp.ParamByName(CampoChave).AsInteger;
+    finally
+        FreeAndNil(sp);
+    end;
+end;
+
+
+class function TBancoDados.CountQuery(SQL : String): Integer;
+var
+    qryAux : TSQLQuery;
+begin
+    qryAux := TSQLQuery.Create(nil);
+    try
+
+        qryAux.SQLConnection := FConexao;
+        qryAux.SQL.Text := SQL;
+        qryAux.Open;
+        Result := qryAux.Fields[0].AsInteger;
+        qryAux.Close;
+
+    finally
+        FreeAndNil(qryAux);
+    end;
+end;
+
+
+constructor TBancoDados.Create(AOwner: TComponent);
+begin
+  FConexao := ObterConexao;
+end;
+
+class function TBancoDados.StringQuery(SQL: String): String;
+var
+    qryAux : TSQLQuery;
+begin
+    qryAux := TSQLQuery.Create(nil);
+    try
+
+        qryAux.SQLConnection := FConexao;
+        qryAux.SQL.Text := SQL;
+        qryAux.Open;
+        Result := qryAux.Fields[0].AsString;
+        qryAux.Close;
+
+    finally
+        FreeAndNil(qryAux);
+    end;
+end;
+
+class procedure TBancoDados.IniciaTransacao;
+var
+    TD: TTransactionDesc;
+begin
+    TD.TransactionID := 1;
+    TD.IsolationLevel := xilREADCOMMITTED;
+    FConexao.StartTransaction(TD);
+end;
+
+class procedure TBancoDados.FinalizaTransacao;
+var
+    TD: TTransactionDesc;
+begin
+    if FConexao.InTransaction then
+    begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        FConexao.Commit(TD);
+    end;
+end;
+
+class procedure TBancoDados.CancelaTransacao;
+var
+    TD: TTransactionDesc;
+begin
+    if FConexao.InTransaction then
+    begin
+        TD.TransactionID := 1;
+        TD.IsolationLevel := xilREADCOMMITTED;
+        FConexao.Rollback(TD);
+    end;
+end;
+
+class function TBancoDados.ExecQuery(SQL: String; Parametros: TParams): Boolean;
+var
+    Query: TSQLQuery;
+begin
+    try
+        Query := TSQLQuery.Create(nil);
+        try
+            Query.SQLConnection := FConexao;
+            Query.SQL.Text := SQL;
+            Query.Params := Parametros;
+            Result := Boolean(Query.ExecSQL);
+        finally
+            FreeAndNil(Query);
+        end;
+    except
+        on E: Exception do
+        begin
+            Result := False;
+            Application.MessageBox(PChar(E.Message), 'Erro', MB_ICONERROR);
+        end;
+    end
+end;
+
+end.

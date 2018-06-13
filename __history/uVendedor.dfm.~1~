@@ -1,0 +1,103 @@
+object frmVendedor: TfrmVendedor
+  Left = 274
+  Top = 124
+  Width = 468
+  Height = 280
+  Caption = 'Cadastro do Vendedor'
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'MS Sans Serif'
+  Font.Style = []
+  FormStyle = fsMDIChild
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  Visible = True
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 32
+    Top = 32
+    Width = 45
+    Height = 13
+    Caption = 'Matr'#237'cula'
+  end
+  object Label2: TLabel
+    Left = 160
+    Top = 56
+    Width = 39
+    Height = 13
+    Caption = '4 digitos'
+  end
+  object Label3: TLabel
+    Left = 32
+    Top = 80
+    Width = 28
+    Height = 13
+    Caption = 'Nome'
+  end
+  object Label4: TLabel
+    Left = 32
+    Top = 128
+    Width = 60
+    Height = 13
+    Caption = 'Sal'#225'rio Bruto'
+  end
+  object Label5: TLabel
+    Left = 333
+    Top = 128
+    Width = 99
+    Height = 13
+    Caption = 'Percentual Comiss'#227'o'
+  end
+  object edtMatricula: TEdit
+    Left = 32
+    Top = 52
+    Width = 121
+    Height = 21
+    TabOrder = 0
+    OnChange = edtMatriculaChange
+  end
+  object edtNome: TEdit
+    Left = 32
+    Top = 96
+    Width = 401
+    Height = 21
+    TabOrder = 1
+  end
+  object edtSalarioBruto: TEdit
+    Left = 32
+    Top = 144
+    Width = 99
+    Height = 21
+    TabOrder = 2
+  end
+  object edtPercentualComissao: TEdit
+    Left = 333
+    Top = 144
+    Width = 99
+    Height = 21
+    TabOrder = 3
+  end
+  object btnCadastro: TButton
+    Left = 88
+    Top = 192
+    Width = 143
+    Height = 25
+    Caption = 'Cadastrar/Alterar'
+    TabOrder = 4
+    OnClick = btnCadastroClick
+  end
+  object btnFechar: TButton
+    Left = 264
+    Top = 192
+    Width = 75
+    Height = 25
+    Caption = 'Fechar'
+    TabOrder = 5
+    OnClick = btnFecharClick
+  end
+end

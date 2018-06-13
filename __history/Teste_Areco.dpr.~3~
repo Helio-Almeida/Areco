@@ -1,0 +1,17 @@
+program Teste_Areco;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {Form1},
+  Classe.Cadastro_Base in 'Classe.Cadastro_Base.pas',
+  uBancoDados in 'uBancoDados.pas',
+  uFB in 'uFB.pas';
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  Application.CreateForm(TForm1, Form1);
+  Application.Run;
+end.

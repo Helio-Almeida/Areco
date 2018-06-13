@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2018/04/27 16:49:11.000.546,=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/02 10:21:35.000.526,=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/25 15:44:01.000.393,=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/05/29 10:41:42.000.496,=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:23:30.000.173,=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:25:03.000.556,C:\Areco\uPrincipal.dfm=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2018/06/11 10:25:03.000.556,C:\Areco\uPrincipal.pas=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:25:09.000.689,C:\Areco\Teste_Areco.dproj=C:\Users\Desenvolvimento\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2018/06/11 10:26:50.000.424,=C:\Areco\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:27:18.000.404,C:\Areco\uDM.pas=C:\Areco\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:27:18.000.404,C:\Areco\uDM.dfm=C:\Areco\Unit1.dfm</Transaction>
+    <Transaction>2018/06/11 10:38:24.000.703,=C:\Areco\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:40:42.000.885,C:\Areco\Classe_Produto.pas=C:\Areco\Unit1.pas</Transaction>
+    <Transaction>2018/06/11 10:54:04.000.156,=C:\Areco\uVendedor.pas</Transaction>
+    <Transaction>2018/06/11 10:54:58.000.177,C:\Areco\uProduto.pas=C:\Areco\uVendedor.pas</Transaction>
+    <Transaction>2018/06/11 10:54:58.000.177,C:\Areco\uProduto.dfm=C:\Areco\uVendedor.dfm</Transaction>
+  </Transactions>
+</BorlandProject>

@@ -1,0 +1,51 @@
+unit uPrincipal;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.Menus, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Classe_Produto;
+
+type
+  TfrmPrincipal = class(TForm)
+    pnlPrincipal: TPanel;
+    DBGridProdutos: TDBGrid;
+    MainMenu1: TMainMenu;
+    teste1: TMenuItem;
+    procedure FormShow(Sender: TObject);
+    procedure DBGridProdutosDblClick(Sender: TObject);
+    procedure teste1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmPrincipal: TfrmPrincipal;
+
+implementation
+
+{$R *.dfm}
+
+uses uProduto;
+
+procedure TfrmPrincipal.DBGridProdutosDblClick(Sender: TObject);
+begin
+  frmProduto := TfrmProduto.Create(Self);
+  frmProduto.Show;
+end;
+
+procedure TfrmPrincipal.FormShow(Sender: TObject);
+begin
+  DBGridProdutos.DataSource := TProduto.ListarProduto();
+end;
+
+procedure TfrmPrincipal.teste1Click(Sender: TObject);
+begin
+  frmProduto := TfrmProduto.Create(Self);
+  frmProduto.Show;
+end;
+
+end.

@@ -1,0 +1,121 @@
+unit uDM;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, Data.DB, IBX.IBCustomDataSet, IBX.IBQuery,
+  IBX.IBDatabase, Classe_Produto;
+
+type
+  TDM = class(TDataModule)
+    IBConexao: TIBDatabase;
+    IBTrans: TIBTransaction;
+    qryTemp: TIBQuery;
+    dsFiltroProduto: TDataSource;
+    qryFiltroProduto: TIBQuery;
+    qryProduto: TIBQuery;
+    dsProduto: TDataSource;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+    function BuscaProduto(sCodigo:String; oProduto:TProduto; var Id: Integer): Boolean;
+    function FiltrarProduto(Nome: String) : TDataSource;
+    function ListarProduto: TDataSource;
+  end;
+
+var
+  DM: TDM;
+
+implementation
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+{ TDM }
+
+function TDM.FiltrarProduto(Nome: String): TDataSource;
+var
+  sSql : String;
+begin
+  try
+    if not IBConexao.Connected then
+      IBConexao.Connected := true;
+    sSql := ' select * from PRODUTOS '+
+            ' Where descricao like '+Chr(39)+Nome+'%'+chr(39);
+    qryFiltroProduto.Close;
+    qryFiltroProduto.SQL.Clear;
+    qryFiltroProduto.SQL.aDD(sSql);
+    qryFiltroProduto.Open;
+    Result := dsFiltroProduto;
+  except
+    On E:Exception do
+    begin
+      raise Exception.Create('Erro: '+E.Message)
+    end;
+  end;
+end;
+
+function TDM.ListarProduto: TDataSource;
+var
+  sSql : String;
+begin
+  try
+    if not IBConexao.Connected then
+      IBConexao.Connected := true;
+    sSql := ' select idproduto, codigo, descricao, estoque from PRODUTOS '+
+            ' order by descricao ';
+    qryProduto.Close;
+    qryProduto.SQL.Clear;
+    qryProduto.SQL.aDD(sSql);
+    qryProduto.Open;
+    Result := dsProduto;
+  except
+    On E:Exception do
+    begin
+      raise Exception.Create('Erro: '+E.Message)
+    end;
+  end;
+end;
+
+function TDM.GravaProduto(oProduto: TProduto): Boolean;
+var
+  sSql : String;
+begin
+  try
+    if Not IBConexao.Connected then
+      ibConexao.Connected := True;
+    qryTemp.Close;
+    qryTemp.Close;
+    qryTemp.SQL.Clear;
+    if oProduto.id <> 0 then
+    begin
+      sSql := 'Update Produto set Codigo = :pCodigo,'+
+              ' Descricao = :pDescricao, '+
+              ' Estoque = :pEstoque '+
+              ' where IDProduto = :pId ';
+      qryTemp.sql.Add(sSql);
+      qryTemp.ParamByname('pid').value := oProduto.Id;
+      qryTemp.ParamByname('pCodigo').Value := oProduto.Codigo;
+      qryTemp.ParamByname('pDescricao').value := oProduto.Descricao;
+      qryTemp.ParamByname('pEstoque').Value := oProduto.Estoque;
+    end
+    else
+    begin
+      sSql := 'Insert into Produto (Codigo, Descricao, Estoque) '+
+              ' Values '+
+              ' (:pCodigo, :pDescricao, :pEstoque)';
+      qryTemp.SQL.Add(sSql);
+      qryTemp.Parambyname('pCodigo').Value := oProduto.Codigo;
+      qryTemp.paramByname('pDescricao').Value := oProduto.Descricao;
+      qrytemp.ParamByName('pEstoque').Value := oProduto.Estoque;
+    end;
+    qryTemp.ExecSQL;
+    Result := True;
+  except
+    Result := False;
+    Raise Exception.Create('Erro ao Gravar Produto.');
+  end;
+end;
+end.
